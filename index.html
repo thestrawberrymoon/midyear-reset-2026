@@ -426,7 +426,7 @@
       width: 100%; font-family: 'Cormorant Garamond', serif; font-size: 15px; color: var(--ink);
       background: var(--card); border: 1.5px solid var(--border);
       border-radius: 10px; padding: 13px 15px; line-height: 1.8;
-      resize: vertical; min-height: 98px;
+      resize: none; min-height: 98px;
       transition: border-color 0.2s, box-shadow 0.2s;
       -webkit-appearance: none; appearance: none;
     }
@@ -1141,8 +1141,19 @@
     d.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); goTo(i); } });
   });
 
+  /* ── Auto-resize textareas to fit content ── */
+  function autoResize(ta) {
+    ta.style.height = 'auto';
+    ta.style.height = ta.scrollHeight + 'px';
+  }
+  document.querySelectorAll('textarea').forEach(ta => {
+    ta.addEventListener('input', () => autoResize(ta));
+  });
+
   /* ── Init: restore session data, always start on home ── */
   restore();
+  // Expand all textareas to fit restored content
+  document.querySelectorAll('textarea').forEach(ta => autoResize(ta));
   showScreen('home');
 </script>
 </body>
