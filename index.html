@@ -624,35 +624,31 @@
     }
 
 
+    /* ── Screen-only helpers ── */
+    .print-mirror { display: none; }
+
     /* ══════════════════════════════════════
-       PRINT
+       PRINT / PDF
     ══════════════════════════════════════ */
     @media print {
-      .no-print, .nav, .bar, .overlay, .toast { display: none !important; }
-      /* Show all workbook sections for print */
+      /* hide chrome */
+      #main-nav, .no-print, .nav, .bar, .overlay, .toast,
+      .progress-bar, .btn-act, .bar-home, .btn-reset,
+      .wbs-nav, #toast, #modal, .snav { display: none !important; }
+
+      /* show all sections */
       .screen, #workbook, .wbs { display: block !important; }
-      #home, #closing { display: none !important; }
+      #home, #closing, .hero, .hero-inner { display: none !important; }
+
       body { background: white; font-size: 11pt; }
-      .wbs { page-break-after: always; padding-top: 24pt; }
-      .wb { max-width: 100%; padding: 0 20pt 0; }
-      textarea, input[type="text"] { border: 1px solid #ddd; min-height: 48pt; background: white; }
+      .wb { max-width: 100%; padding: 0 20pt; }
+      .wbs { padding-top: 24pt; page-break-after: always; }
       .s-h { font-size: 20pt; }
       .pmt-q { font-size: 14pt; }
       @page { margin: 18mm; }
-    }
 
-    /* ── Print / PDF ── */
-    @media print {
-      #main-nav, .progress-bar, .btn-act, .bar-home, .btn-reset,
-      .wbs-nav, #toast, #modal { display: none !important; }
-      .screen { display: block !important; }
-      .wbs { display: block !important; }
-      body { background: white; }
-      .hero, .hero-inner { display: none !important; }
-
-      textarea {
-        display: none !important;
-      }
+      /* hide real textareas, show mirrors */
+      textarea { display: none !important; }
       .print-mirror {
         display: block !important;
         font-family: 'Cormorant Garamond', serif;
@@ -661,13 +657,12 @@
         border-radius: 10px; padding: 13px 15px;
         line-height: 1.8; white-space: pre-wrap;
         word-break: break-word;
-        min-height: 50px;
-        page-break-inside: avoid;
+        overflow: visible;
+        height: auto;
       }
-      input[type="text"] { border: 1px solid #ddd !important; }
+      input[type="text"] { border: 1px solid #ddd !important; background: white; }
       input.big-word { font-size: 32px !important; }
     }
-    .print-mirror { display: none; }
   </style>
 </head>
 <body>
