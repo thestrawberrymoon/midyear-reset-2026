@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Strawberry Moon</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Lora:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; background: #080912; overflow: hidden; }
+
+  .scene {
+    position: relative;
+    width: 100vw; height: 100vh;
+    background: radial-gradient(ellipse 80% 70% at 50% 55%, #16122e 0%, #0d0b1e 45%, #060711 100%);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+
+  #stars-canvas { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+
+  .moon-halo {
+    position: absolute; top: 10vh; left: 50%; transform: translateX(-50%);
+    width: 220px; height: 220px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(245,215,100,0.08) 0%, transparent 70%);
+    animation: haloAppear 2s ease forwards, haloPulse 5s ease-in-out infinite 2.5s;
+    opacity: 0; z-index: 2;
+  }
+  @keyframes haloAppear {
+    0% { opacity: 0; transform: translateX(-50%) scale(0.6); }
+    100% { opacity: 1; transform: translateX(-50%) scale(1); }
+  }
+  @keyframes haloPulse {
+    0%, 100% { transform: translateX(-50%) scale(1); opacity: 1; }
+    50% { transform: translateX(-50%) scale(1.1); opacity: 0.85; }
+  }
+
+  .moon-wrap {
+    position: absolute; top: 10vh; left: 50%; transform: translateX(-50%);
+    z-index: 3;
+    animation: moonRise 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: 0.3s; opacity: 0;
+  }
+  @keyframes moonRise {
+    0%   { opacity: 0; transform: translateX(-50%) translateY(50px) scale(0.8); }
+    60%  { opacity: 1; }
+    100% { opacity: 1; transform: translateX(-50%) translateY(0px) scale(1); }
+  }
+
+  .moon {
+    width: 100px; height: 100px; border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #fffae8 0%, #f8e47a 30%, #e8b84a 65%, #c8882a 100%);
+    box-shadow: 0 0 30px rgba(245,210,80,0.5), 0 0 70px rgba(245,210,80,0.2), 0 0 120px rgba(245,210,80,0.08);
+    animation: moonGlow 4s ease-in-out infinite; animation-delay: 2.5s; position: relative;
+  }
+  @keyframes moonGlow {
+    0%, 100% { box-shadow: 0 0 30px rgba(245,210,80,0.5), 0 0 70px rgba(245,210,80,0.2), 0 0 120px rgba(245,210,80,0.08); }
+    50%       { box-shadow: 0 0 45px rgba(245,210,80,0.65), 0 0 90px rgba(245,210,80,0.28), 0 0 150px rgba(245,210,80,0.12); }
+  }
+  .moon::before {
+    content: ''; position: absolute; width: 14px; height: 14px; border-radius: 50%;
+    background: rgba(180,130,40,0.28); top: 26px; left: 58px;
+  }
+  .moon::after {
+    content: ''; position: absolute; width: 9px; height: 9px; border-radius: 50%;
+    background: rgba(180,130,40,0.22); top: 54px; left: 30px;
+  }
+
+  .berry {
+    position: absolute; top: -12px; right: -22px; font-size: 22px;
+    animation: berryAppear 0.6s ease forwards, berryFloat 3.5s ease-in-out infinite;
+    animation-delay: 1.8s, 2.8s; opacity: 0;
+    filter: drop-shadow(0 3px 8px rgba(200,50,50,0.45));
+  }
+  @keyframes berryAppear {
+    0%   { opacity: 0; transform: scale(0) rotate(-20deg); }
+    70%  { transform: scale(1.15) rotate(5deg); }
+    100% { opacity: 1; transform: scale(1) rotate(-5deg); }
+  }
+  @keyframes berryFloat {
+    0%, 100% { transform: translateY(0px) rotate(-5deg); }
+    50%       { transform: translateY(-5px) rotate(5deg); }
+  }
+
+  .text-block {
+    position: relative; z-index: 10; text-align: center; margin-top: 18vh;
+  }
+  .channel-name {
+    font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 300;
+    font-size: clamp(36px, 6.5vw, 72px); color: #f7e8c2;
+    letter-spacing: 0.22em; text-transform: uppercase; line-height: 1;
+    display: flex; justify-content: center;
+  }
+  .letter {
+    display: inline-block; opacity: 0; transform: translateY(22px);
+    animation: letterUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  .space { display: inline-block; width: 0.35em; }
+  @keyframes letterUp {
+    0%   { opacity: 0; transform: translateY(22px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  .divider {
+    width: 0; height: 1px;
+    background: linear-gradient(to right, transparent, rgba(245,210,100,0.55), transparent);
+    margin: 18px auto 0;
+    animation: lineExpand 1s ease forwards; animation-delay: 2.8s;
+  }
+  @keyframes lineExpand {
+    0%   { width: 0; opacity: 0; }
+    100% { width: 160px; opacity: 1; }
+  }
+
+  .tagline {
+    font-family: 'Lora', Georgia, serif; font-style: italic; font-weight: 400;
+    font-size: clamp(12px, 2vw, 17px); color: rgba(220,190,130,0.65);
+    letter-spacing: 0.28em; margin-top: 16px;
+    opacity: 0; animation: fadeIn 1.2s ease forwards; animation-delay: 3.3s;
+  }
+  @keyframes fadeIn {
+    0%   { opacity: 0; transform: translateY(8px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  .particles { position: absolute; inset: 0; pointer-events: none; z-index: 4; }
+  .particle {
+    position: absolute; opacity: 0;
+    animation: particleDrift var(--dur) ease-in-out infinite var(--del);
+  }
+  @keyframes particleDrift {
+    0%   { opacity: 0; transform: translateY(10px) scale(0.5); }
+    25%  { opacity: 0.7; }
+    75%  { opacity: 0.4; }
+    100% { opacity: 0; transform: translateY(-90px) scale(1) rotate(180deg); }
+  }
+
+  .hills { position: absolute; bottom: 0; left: 0; right: 0; height: 200px; pointer-events: none; z-index: 5; }
+  .mist {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 100px;
+    background: linear-gradient(to top, rgba(8,9,18,0.85) 0%, transparent 100%);
+    z-index: 6; pointer-events: none;
+  }
+  .vignette {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 50%, transparent 55%, rgba(4,4,12,0.65) 100%);
+    pointer-events: none; z-index: 7;
+  }
+</style>
+</head>
+<body>
+<div class="scene">
+  <canvas id="stars-canvas"></canvas>
+  <div class="moon-halo"></div>
+  <div class="moon-wrap">
+    <div class="moon"></div>
+    <div class="berry">🍓</div>
+  </div>
+  <div class="particles" id="particles"></div>
+  <div class="text-block">
+    <div class="channel-name" id="channel-name"></div>
+    <div class="divider"></div>
+    <div class="tagline">a live journal &nbsp;·&nbsp; with a camera</div>
+  </div>
+  <svg class="hills" viewBox="0 0 1440 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,200 L0,100 Q120,30 280,80 Q440,125 600,60 Q720,10 880,65 Q1040,115 1200,70 Q1340,30 1440,90 L1440,200 Z" fill="#0b0c1c"/>
+    <path d="M0,200 L0,140 Q200,100 400,125 Q600,148 800,110 Q1000,75 1200,118 Q1340,138 1440,125 L1440,200 Z" fill="#0d0e20"/>
+  </svg>
+  <div class="mist"></div>
+  <div class="vignette"></div>
+</div>
+
+<script>
+const canvas = document.getElementById('stars-canvas');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const stars = Array.from({ length: 120 }, () => ({
+  x: Math.random() * canvas.width,
+  y: Math.random() * canvas.height * 0.75,
+  r: Math.random() * 1.4 + 0.4,
+  speed: Math.random() * 0.015 + 0.005,
+  phase: Math.random() * Math.PI * 2,
+  maxAlpha: Math.random() * 0.7 + 0.2
+}));
+
+function drawStars(t) {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  stars.forEach(s => {
+    const alpha = s.maxAlpha * (0.5 + 0.5 * Math.sin(t * s.speed + s.phase));
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(255,248,220,${alpha})`;
+    ctx.fill();
+  });
+  requestAnimationFrame(drawStars);
+}
+requestAnimationFrame(drawStars);
+
+const name = "Strawberry Moon";
+const container = document.getElementById('channel-name');
+let delay = 1.5;
+for (let i = 0; i < name.length; i++) {
+  if (name[i] === ' ') {
+    const sp = document.createElement('span');
+    sp.className = 'space';
+    container.appendChild(sp);
+  } else {
+    const span = document.createElement('span');
+    span.className = 'letter';
+    span.textContent = name[i];
+    span.style.animationDelay = delay + 's';
+    delay += 0.06;
+    container.appendChild(span);
+  }
+}
+
+const pContainer = document.getElementById('particles');
+const symbols = ['✦', '·', '✧', '⋆'];
+for (let i = 0; i < 18; i++) {
+  const p = document.createElement('div');
+  p.className = 'particle';
+  p.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+  const isWarm = Math.random() > 0.5;
+  p.style.cssText = `
+    left: ${10 + Math.random() * 80}%;
+    top: ${20 + Math.random() * 60}%;
+    --dur: ${7 + Math.random() * 8}s;
+    --del: ${3 + Math.random() * 6}s;
+    font-size: ${6 + Math.random() * 6}px;
+    color: rgba(${isWarm ? '245,215,130' : '200,230,180'},${0.3 + Math.random() * 0.4});
+  `;
+  pContainer.appendChild(p);
+}
+</script>
+</body>
+</html>

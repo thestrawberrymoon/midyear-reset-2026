@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>STRAWBERRY MOON — V1 Dreamy Blush</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:#1a0a0f;display:flex;align-items:center;justify-content:center}
+
+/* ── 16:9 stage ── */
+.stage{
+  position:relative;
+  width:min(100vw, 177.78vh);
+  height:min(56.25vw, 100vh);
+  overflow:hidden;
+  background:linear-gradient(160deg,#fff0f5 0%,#ffd6e7 30%,#ffb3cc 60%,#f7a8c4 80%,#e8829e 100%);
+  animation:skyShift 6s ease-in-out infinite alternate;
+}
+@keyframes skyShift{
+  0%{background:linear-gradient(160deg,#fff0f5 0%,#ffd6e7 30%,#ffb3cc 60%,#f7a8c4 80%,#e8829e 100%)}
+  100%{background:linear-gradient(160deg,#fff5f8 0%,#ffe4ef 30%,#ffc4d8 60%,#ffaac6 80%,#f090b0 100%)}
+}
+
+/* ── Moon ── */
+.moon{
+  position:absolute;
+  top:12%;left:58%;
+  width:18%;aspect-ratio:1;
+  border-radius:50%;
+  background:radial-gradient(circle at 38% 35%,#fff 0%,#ffe0ea 40%,#ffb3c6 75%,#ff8fab 100%);
+  box-shadow:0 0 60px 30px rgba(255,143,171,.5),0 0 120px 60px rgba(255,183,197,.25),inset -6px -8px 20px rgba(255,100,130,.3),inset 5px 6px 15px rgba(255,255,255,.7);
+  animation:moonBob 4s ease-in-out infinite, moonGlow 3s ease-in-out infinite alternate, fadeInScale 1.2s ease-out both;
+}
+@keyframes moonBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4%)}}
+@keyframes moonGlow{0%{box-shadow:0 0 60px 30px rgba(255,143,171,.5),0 0 120px 60px rgba(255,183,197,.25)}100%{box-shadow:0 0 80px 45px rgba(255,143,171,.7),0 0 160px 80px rgba(255,183,197,.4)}}
+@keyframes fadeInScale{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+
+/* ── Stars ── */
+.stars{position:absolute;inset:0;pointer-events:none}
+.star{
+  position:absolute;
+  background:#fff;
+  border-radius:50%;
+  animation:starTwinkle 2s ease-in-out infinite;
+}
+@keyframes starTwinkle{0%,100%{opacity:.2;transform:scale(.8)}50%{opacity:1;transform:scale(1.3)}}
+
+/* ── Clouds ── */
+.cloud{
+  position:absolute;
+  border-radius:50%;
+  background:radial-gradient(ellipse,rgba(255,255,255,.9) 0%,rgba(255,220,235,.6) 50%,transparent 80%);
+  filter:blur(8px);
+  animation:cloudDrift linear infinite;
+}
+@keyframes cloudDrift{from{transform:translateX(-30%)}to{transform:translateX(120%)}}
+
+/* ── Petals ── */
+.petal{
+  position:absolute;
+  width:12px;height:18px;
+  border-radius:50% 50% 50% 0;
+  background:rgba(255,182,193,.7);
+  animation:petalFall linear infinite;
+  transform-origin:center;
+}
+@keyframes petalFall{
+  0%{transform:translateY(-10%) rotate(0deg) translateX(0);opacity:0}
+  10%{opacity:.8}
+  90%{opacity:.6}
+  100%{transform:translateY(110%) rotate(360deg) translateX(40px);opacity:0}
+}
+
+/* ── Grain ── */
+.grain{
+  position:absolute;inset:0;pointer-events:none;
+  opacity:.12;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='.5'/></svg>");
+  animation:grainMove .6s steps(3) infinite;
+}
+@keyframes grainMove{0%{transform:translate(0,0)}33%{transform:translate(-2%,1%)}66%{transform:translate(1%,-2%)}100%{transform:translate(0,0)}}
+
+/* ── Vignette ── */
+.vignette{position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 50%,rgba(180,60,90,.25) 100%);pointer-events:none}
+
+/* ── Title ── */
+.title{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:.4em;
+}
+.title-main{
+  font-family:'Playfair Display',serif;
+  font-weight:900;
+  font-size:clamp(2.5rem,9vw,7rem);
+  color:#fff;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  text-shadow:0 0 40px rgba(255,143,171,.8),0 4px 20px rgba(200,60,90,.4),0 2px 0 rgba(255,255,255,.3);
+  opacity:0;
+  animation:titleReveal 1.4s cubic-bezier(.16,1,.3,1) 1s forwards;
+  -webkit-text-stroke:1px rgba(255,200,215,.4);
+}
+.title-sub{
+  font-family:'Playfair Display',serif;
+  font-weight:400;
+  font-style:italic;
+  font-size:clamp(.8rem,2vw,1.4rem);
+  color:rgba(255,240,245,.85);
+  letter-spacing:.5em;
+  text-transform:lowercase;
+  opacity:0;
+  animation:titleReveal 1.2s ease-out 2s forwards;
+}
+@keyframes titleReveal{
+  0%{opacity:0;transform:translateY(20px) scale(.95)}
+  100%{opacity:1;transform:translateY(0) scale(1)}
+}
+
+/* ── Shimmer line ── */
+.shimmer{
+  position:absolute;
+  top:0;left:-100%;
+  width:60%;height:100%;
+  background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.15) 50%,transparent 60%);
+  animation:shimmerSweep 6s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes shimmerSweep{0%,100%{left:-100%}50%{left:150%}}
+
+/* ── Label ── */
+.label{position:absolute;bottom:3%;right:3%;font-family:monospace;font-size:clamp(.5rem,.9vw,.75rem);color:rgba(255,255,255,.35);letter-spacing:.15em}
+</style>
+</head>
+<body>
+<div class="stage">
+
+  <!-- Stars -->
+  <div class="stars" id="stars"></div>
+
+  <!-- Clouds -->
+  <div class="cloud" style="width:35%;height:18%;top:8%;left:-10%;animation-duration:18s;opacity:.7"></div>
+  <div class="cloud" style="width:28%;height:14%;top:20%;left:-5%;animation-duration:24s;animation-delay:-8s;opacity:.5"></div>
+  <div class="cloud" style="width:40%;height:20%;top:60%;left:-15%;animation-duration:20s;animation-delay:-4s;opacity:.6"></div>
+  <div class="cloud" style="width:22%;height:12%;top:75%;left:-8%;animation-duration:15s;animation-delay:-12s;opacity:.4"></div>
+
+  <!-- Moon -->
+  <div class="moon"></div>
+
+  <!-- Petals -->
+  <div class="petal" style="left:10%;animation-duration:7s;animation-delay:0s;width:10px;height:15px"></div>
+  <div class="petal" style="left:25%;animation-duration:9s;animation-delay:-2s;width:8px;height:12px;background:rgba(255,160,180,.6)"></div>
+  <div class="petal" style="left:45%;animation-duration:6s;animation-delay:-4s;width:14px;height:20px"></div>
+  <div class="petal" style="left:65%;animation-duration:8s;animation-delay:-1s;width:9px;height:14px;background:rgba(255,200,210,.7)"></div>
+  <div class="petal" style="left:80%;animation-duration:10s;animation-delay:-3s;width:11px;height:16px"></div>
+  <div class="petal" style="left:90%;animation-duration:7.5s;animation-delay:-5s;width:7px;height:11px;background:rgba(255,170,190,.5)"></div>
+
+  <!-- Shimmer -->
+  <div class="shimmer"></div>
+
+  <!-- Grain -->
+  <div class="grain"></div>
+
+  <!-- Vignette -->
+  <div class="vignette"></div>
+
+  <!-- Title -->
+  <div class="title">
+    <div class="title-main">Strawberry Moon</div>
+    <div class="title-sub">✦ a dreamy channel ✦</div>
+  </div>
+
+  <div class="label">V1 · DREAMY BLUSH</div>
+</div>
+
+<script>
+// Generate random stars
+const starsEl = document.getElementById('stars');
+for(let i=0;i<60;i++){
+  const s = document.createElement('div');
+  s.className = 'star';
+  const size = Math.random()*3+1;
+  s.style.cssText = `width:${size}px;height:${size}px;top:${Math.random()*100}%;left:${Math.random()*100}%;animation-delay:${Math.random()*3}s;animation-duration:${1.5+Math.random()*2}s`;
+  starsEl.appendChild(s);
+}
+</script>
+</body>
+</html>

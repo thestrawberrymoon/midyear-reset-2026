@@ -1,0 +1,289 @@
+/* =========================================================
+   STRAWBERRY MOON — dreamy animated intro
+   16:9 cinematic hero with drifting clouds, glowing moon,
+   floating sparkles, film grain, and a fading title.
+   ========================================================= */
+
+:root {
+  /* Color palette — white, blush pink, dusty rose, warm cream */
+  --cream:        #fff8f2;
+  --blush:        #ffe4ec;
+  --dusty-rose:   #e6b6c2;
+  --rose-text:    #b97a88;   /* soft muted rose for title */
+  --moon-pink:    #ffc4d1;
+  --moon-core:    #ffd9e2;
+  --cloud:        #ffffff;
+
+  --dur-fade:     1.8s;      /* cinematic fade-in */
+  --dur-drift:    22s;        /* cloud drift speed */
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: #f6ead9;
+  font-family: 'Montserrat', system-ui, sans-serif;
+  color: var(--rose-text);
+}
+
+/* ---------- Stage: 16:9 cinematic frame ---------- */
+.intro {
+  position: relative;
+  width: 100vw;
+  aspect-ratio: 16 / 9;
+  max-height: 100vh;
+  margin: 0 auto;
+  overflow: hidden;
+  isolation: isolate;
+
+  /* Soft dreamy sky: warm cream -> blush -> dusty rose */
+  background:
+    radial-gradient(120% 80% at 70% 30%,
+      #fff 0%,
+      var(--blush) 38%,
+      #f7cdd7 70%,
+      var(--dusty-rose) 100%);
+
+  animation: skyBreathe 8s ease-in-out infinite alternate,
+             fadeIn var(--dur-fade) ease-out both;
+}
+
+@keyframes skyBreathe {
+  0%   { filter: brightness(1)    saturate(1);    }
+  100% { filter: brightness(1.04) saturate(1.05); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(1.02); }
+  to   { opacity: 1; transform: scale(1);    }
+}
+
+/* ---------- Moon ---------- */
+.moon-wrap {
+  position: absolute;
+  top: 18%;
+  left: 62%;
+  width: 22vmin;
+  height: 22vmin;
+  animation: moonFloat 9s ease-in-out infinite alternate,
+             fadeIn 2.4s ease-out .2s both;
+  will-change: transform;
+}
+
+.moon {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 35%,
+      #ffffff 0%,
+      var(--moon-core) 40%,
+      var(--moon-pink) 75%,
+      #ff9fb4 100%);
+  box-shadow:
+    inset -8px -10px 18px rgba(255, 159, 180, .45),
+    inset 6px 8px 16px rgba(255, 255, 255, .7);
+  animation: moonFlicker 3.6s ease-in-out infinite;
+}
+
+.moon-glow {
+  position: absolute;
+  inset: -60%;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle,
+      rgba(255, 196, 209, .7) 0%,
+      rgba(255, 196, 209, .35) 25%,
+      rgba(255, 228, 236, .15) 50%,
+      rgba(255, 228, 236, 0)   75%);
+  filter: blur(6px);
+  animation: moonGlowPulse 4.5s ease-in-out infinite alternate;
+}
+
+@keyframes moonFloat {
+  0%   { transform: translateY(0)     translateX(0);   }
+  100% { transform: translateY(-1.2%) translateX(.6%); }
+}
+
+@keyframes moonFlicker {
+  0%, 100% { opacity: 1;    }
+  48%      { opacity: .96;  }
+  52%      { opacity: 1;    }
+  70%      { opacity: .985; }
+}
+
+@keyframes moonGlowPulse {
+  0%   { opacity: .75; transform: scale(1);    }
+  100% { opacity: 1;   transform: scale(1.06); }
+}
+
+/* ---------- Clouds ---------- */
+.clouds {
+  position: absolute;
+  top: 0;
+  left: -20%;
+  width: 160%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.clouds svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.clouds--back {
+  opacity: .8;
+  filter: blur(3px);
+  animation: drift var(--dur-drift) linear infinite,
+             fadeIn 2.2s ease-out both;
+}
+
+.clouds--front {
+  top: 20%;
+  height: 95%;
+  opacity: .95;
+  filter: blur(1.5px);
+  animation: drift calc(var(--dur-drift) * .7) linear infinite,
+             fadeIn 2.6s ease-out .15s both;
+}
+
+@keyframes drift {
+  from { transform: translateX(0);    }
+  to   { transform: translateX(12%);  }
+}
+
+/* ---------- Sparkles / floating particles ---------- */
+.sparkles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.sparkles span {
+  position: absolute;
+  left: var(--x);
+  top:  var(--y);
+  width:  var(--s);
+  height: var(--s);
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 0 6px 2px rgba(255, 255, 255, .85),
+              0 0 14px 4px rgba(255, 196, 209, .5);
+  opacity: 0;
+  animation: twinkle 3.2s ease-in-out infinite,
+             floatUp 7s ease-in-out infinite;
+  animation-delay: var(--d), var(--d);
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0;   transform: scale(.6); }
+  50%      { opacity: .9;  transform: scale(1);  }
+}
+
+@keyframes floatUp {
+  0%   { translate: 0 0;      }
+  50%  { translate: 2px -10px;}
+  100% { translate: 0 0;      }
+}
+
+/* ---------- Film grain (CSS-generated noise) ---------- */
+.grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+  opacity: .18;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='matrix' values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  animation: grainShift .8s steps(4) infinite;
+}
+
+@keyframes grainShift {
+  0%   { transform: translate(0, 0);     }
+  25%  { transform: translate(-2%, 1%);  }
+  50%  { transform: translate(1%, -2%);  }
+  75%  { transform: translate(-1%, 2%);  }
+  100% { transform: translate(0, 0);     }
+}
+
+/* ---------- Vignette ---------- */
+.vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center,
+    transparent 55%,
+    rgba(185, 122, 136, .15) 85%,
+    rgba(120, 60, 80, .25)  100%);
+}
+
+/* ---------- Title ---------- */
+.title {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  text-align: center;
+  color: var(--rose-text);
+  text-shadow: 0 2px 14px rgba(255, 255, 255, .55);
+  pointer-events: none;
+}
+
+.title__inner {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 300;
+  font-size: clamp(2rem, 7vw, 6rem);
+  letter-spacing: .55em;        /* cinematic spacing */
+  padding-left: .55em;          /* balance tracking */
+  text-transform: uppercase;
+  font-style: normal;           /* explicitly not italic */
+
+  opacity: 0;
+  transform: scale(.94);
+  animation: titleIn 2.4s cubic-bezier(.2, .7, .2, 1) 1.2s forwards;
+  filter: drop-shadow(0 0 18px rgba(255, 228, 236, .7));
+}
+
+.title__sub {
+  margin-top: 1.2em;
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-style: normal;
+  font-size: clamp(.7rem, 1.4vw, 1.1rem);
+  letter-spacing: .35em;
+  text-transform: lowercase;
+  color: #c49aa6;
+
+  opacity: 0;
+  animation: titleIn 2s ease-out 2s forwards;
+}
+
+@keyframes titleIn {
+  0%   { opacity: 0; transform: scale(.94); letter-spacing: .4em; }
+  100% { opacity: 1; transform: scale(1);   letter-spacing: .55em; }
+}
+
+/* ---------- Accessibility: respect reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .intro,
+  .moon-wrap,
+  .moon,
+  .moon-glow,
+  .clouds--back,
+  .clouds--front,
+  .sparkles span,
+  .grain,
+  .title__inner,
+  .title__sub {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

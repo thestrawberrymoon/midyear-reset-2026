@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>STRAWBERRY MOON — All Variants</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;700&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{min-height:100%;background:#0d0810;color:#fff;font-family:'Space Grotesk',sans-serif}
+
+header{
+  padding:3rem 4rem 2rem;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+header h1{
+  font-size:clamp(1.2rem,3vw,2rem);
+  font-weight:700;
+  letter-spacing:.3em;
+  text-transform:uppercase;
+  background:linear-gradient(135deg,#ffd6e7,#ffb3cc,#c8a0ff);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+header p{
+  margin-top:.5rem;
+  font-size:.85rem;
+  color:rgba(255,255,255,.4);
+  letter-spacing:.1em;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,520px),1fr));
+  gap:2rem;
+  padding:2.5rem 4rem 4rem;
+}
+
+.card{
+  display:flex;flex-direction:column;
+  gap:1rem;
+  cursor:pointer;
+}
+.card:hover .frame{transform:scale(1.01);box-shadow:0 20px 60px rgba(0,0,0,.6)}
+
+.frame{
+  position:relative;
+  width:100%;
+  aspect-ratio:16/9;
+  border-radius:12px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.1);
+  transition:transform .3s ease, box-shadow .3s ease;
+  box-shadow:0 8px 30px rgba(0,0,0,.4);
+}
+.frame iframe{
+  width:100%;height:100%;
+  border:none;
+  pointer-events:none;
+}
+
+.card-info{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 .25rem;
+}
+.card-name{
+  font-size:.9rem;
+  font-weight:700;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.8);
+}
+.card-tag{
+  font-size:.7rem;
+  letter-spacing:.1em;
+  color:rgba(255,255,255,.35);
+  text-transform:uppercase;
+}
+.card-open{
+  display:inline-flex;align-items:center;gap:.4em;
+  font-size:.75rem;
+  font-weight:700;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.5);
+  text-decoration:none;
+  border:1px solid rgba(255,255,255,.15);
+  padding:.35em .8em;
+  border-radius:4px;
+  transition:all .2s;
+}
+.card-open:hover{color:#fff;border-color:rgba(255,255,255,.5);background:rgba(255,255,255,.05)}
+
+.palette{
+  display:flex;gap:.4rem;
+  padding:0 .25rem;
+}
+.swatch{
+  width:16px;height:16px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.15);
+}
+
+footer{
+  text-align:center;
+  padding:2rem;
+  font-size:.75rem;
+  color:rgba(255,255,255,.2);
+  letter-spacing:.1em;
+  border-top:1px solid rgba(255,255,255,.06);
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Strawberry Moon</h1>
+  <p>4 animated intro variants · 16:9 · pure HTML + CSS</p>
+</header>
+
+<div class="grid">
+
+  <!-- V1 -->
+  <div class="card">
+    <div class="frame">
+      <iframe src="v1-dreamy-blush.html" title="V1 Dreamy Blush" loading="lazy"></iframe>
+    </div>
+    <div class="card-info">
+      <div>
+        <div class="card-name">V1 — Dreamy Blush</div>
+        <div class="card-tag">soft pink · falling petals · film grain</div>
+      </div>
+      <a class="card-open" href="v1-dreamy-blush.html" target="_blank">Open ↗</a>
+    </div>
+    <div class="palette">
+      <div class="swatch" style="background:#fff0f5" title="blush white"></div>
+      <div class="swatch" style="background:#ffd6e7" title="soft pink"></div>
+      <div class="swatch" style="background:#ffb3cc" title="blush"></div>
+      <div class="swatch" style="background:#ff8fab" title="strawberry pink"></div>
+      <div class="swatch" style="background:#e8829e" title="dusty rose"></div>
+    </div>
+  </div>
+
+  <!-- V2 -->
+  <div class="card">
+    <div class="frame">
+      <iframe src="v2-lavender-dusk.html" title="V2 Lavender Dusk" loading="lazy"></iframe>
+    </div>
+    <div class="card-info">
+      <div>
+        <div class="card-name">V2 — Lavender Dusk</div>
+        <div class="card-tag">deep purple · aurora · gradient title</div>
+      </div>
+      <a class="card-open" href="v2-lavender-dusk.html" target="_blank">Open ↗</a>
+    </div>
+    <div class="palette">
+      <div class="swatch" style="background:#1a0a2e" title="deep violet"></div>
+      <div class="swatch" style="background:#4a2060" title="purple"></div>
+      <div class="swatch" style="background:#7b3f7a" title="mauve"></div>
+      <div class="swatch" style="background:#c4688a" title="rose"></div>
+      <div class="swatch" style="background:#f0a0a8" title="blush"></div>
+    </div>
+  </div>
+
+  <!-- V3 -->
+  <div class="card">
+    <div class="frame">
+      <iframe src="v3-peach-sunrise.html" title="V3 Peach Sunrise" loading="lazy"></iframe>
+    </div>
+    <div class="card-info">
+      <div>
+        <div class="card-name">V3 — Peach Sunrise</div>
+        <div class="card-tag">warm peach · sun rays · hill silhouette</div>
+      </div>
+      <a class="card-open" href="v3-peach-sunrise.html" target="_blank">Open ↗</a>
+    </div>
+    <div class="palette">
+      <div class="swatch" style="background:#ffecd2" title="cream"></div>
+      <div class="swatch" style="background:#fcb69f" title="peach"></div>
+      <div class="swatch" style="background:#ff9a9e" title="coral pink"></div>
+      <div class="swatch" style="background:#ffb870" title="golden"></div>
+      <div class="swatch" style="background:#7a2020" title="deep rose"></div>
+    </div>
+  </div>
+
+  <!-- V4 -->
+  <div class="card">
+    <div class="frame">
+      <iframe src="v4-mint-celestial.html" title="V4 Mint Celestial" loading="lazy"></iframe>
+    </div>
+    <div class="card-info">
+      <div>
+        <div class="card-name">V4 — Mint Celestial</div>
+        <div class="card-tag">deep teal · mint moon · constellation</div>
+      </div>
+      <a class="card-open" href="v4-mint-celestial.html" target="_blank">Open ↗</a>
+    </div>
+    <div class="palette">
+      <div class="swatch" style="background:#0a1628" title="deep navy"></div>
+      <div class="swatch" style="background:#0f3830" title="deep teal"></div>
+      <div class="swatch" style="background:#4a9070" title="sage"></div>
+      <div class="swatch" style="background:#a0ffdc" title="mint"></div>
+      <div class="swatch" style="background:#ffd0e8" title="blush"></div>
+    </div>
+  </div>
+
+</div>
+
+  <!-- V5 -->
+  <div class="card">
+    <div class="frame">
+      <iframe src="v5-pink-reveal.html" title="V5 Pink Cloud Reveal" loading="lazy"></iframe>
+    </div>
+    <div class="card-info">
+      <div>
+        <div class="card-name">V5 — Pink Cloud Reveal</div>
+        <div class="card-tag">pink sky · clouds part · moon reveal · bold caps</div>
+      </div>
+      <a class="card-open" href="v5-pink-reveal.html" target="_blank">Open ↗</a>
+    </div>
+    <div class="palette">
+      <div class="swatch" style="background:#fff0f5" title="blush white"></div>
+      <div class="swatch" style="background:#ffb3cc" title="pink"></div>
+      <div class="swatch" style="background:#ff8fab" title="strawberry"></div>
+      <div class="swatch" style="background:#f06080" title="rose"></div>
+      <div class="swatch" style="background:#c83060" title="deep rose"></div>
+    </div>
+  </div>
+
+</div>
+
+<footer>open each variant full-screen for the best experience · record with QuickTime to export as video</footer>
+
+</body>
+</html>
